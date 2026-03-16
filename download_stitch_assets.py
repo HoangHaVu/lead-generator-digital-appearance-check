@@ -1,0 +1,56 @@
+import os
+import requests
+
+assets = {
+    "scanning": {
+        "image": "https://lh3.googleusercontent.com/aida/ADBb0uhpn9CqEIISu8HHkGOSAq3M9ACj2Wx__YQ8wOmw9sgPSyIF_f5-DYNIc5-8mCMRDizXA5MpvLLZXFGwlC-o9mlRFvGSpr3g9-ZIitccNhX2zz22nrYTrVeI73E_rRoFUNI5kOS0AGQlcMcsr2D5TX38jb_Aul9LpP58YkhGmEzo6BvMWbi7M8TJUEKm35s6a2nQpMlcUPCzPh_A4KMCSyoadwx452aC3TnLv9fpr3jaBtzdtcT0zC-0x4I",
+        "html": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2FlODI4NjllMTIxMTQ2ZmI4YjIyMDMxYjRiYjc0ZjIxEgsSBxC30bCSvh4YAZIBIwoKcHJvamVjdF9pZBIVQhM3ODQzMTkyMjI3MTMyMTY0NTA4&filename=&opi=89354086"
+    },
+    "score_result": {
+        "image": "https://lh3.googleusercontent.com/aida/ADBb0ujyDFAwyjxTgIs1yyLI4-xWR4c4bST-BWkWpot2bz10c3TCF1r4w0KGdX44eivA0y6zZa1cTKx4wuyg4FE4svhq0dW76C6d8BjI98yG8K8Lr1finO6uWEPvbpd-6N0FWRsvnvoYKn-QpD3_ep64Lg5VkDw-KGAaLEHvunjyWDqQENQelBg_2rG8Pk2PUbMsXk4hDiGCyTyghWAbT9wykQV2ScXvfqFxdW0h_PCsUPZz40erwpv0gtLcrYY",
+        "html": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzI2Y2FmNmIxZGExMjQ2MDI5YjQ4ODZhODYxYzRlMWY4EgsSBxC30bCSvh4YAZIBIwoKcHJvamVjdF9pZBIVQhM3ODQzMTkyMjI3MTMyMTY0NTA4&filename=&opi=89354086"
+    },
+    "lead_close": {
+        "image": "https://lh3.googleusercontent.com/aida/ADBb0ujVpwTz86zzAXGuPUSWFEbNGTW_Fbh70-4aNEhzfslWQ8hQUa2_BJpHi8MGWbML2BBJ3HTFfOutUwDKyaR-BiPpUYuqigDjkNPW3xdR1NGGvp8tODARDEI88E7T_pSxWiZ7tJFmZ6c7vH5PMVpwY9eEeSA95DYI7v3-ad32Yi0hBg2vm76H0QJicmNExoB2avVEJmkBE1g73PObt0njSak1g0lYUYJby262Wzhx1o9ZP4rvkUpwfqUaIrM",
+        "html": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzEwNmY0OGRjNmYzNTQ4NWRiNmVhMTk0MDEwMTVlNjQ3EgsSBxC30bCSvh4YAZIBIwoKcHJvamVjdF9pZBIVQhM3ODQzMTkyMjI3MTMyMTY0NTA4&filename=&opi=89354086"
+    },
+    "questions": {
+        "image": "https://lh3.googleusercontent.com/aida/ADBb0uj1KkPffzRyI0uJ3QLQiEr8JnvJy0Wfl1byJe1oyAiIVNMe3EDXOzrQMX0DQ4qGORqgM-9VFNcAYgxJu-HGZzX8I9WGvNt1CydXyUbWgCdJO8IsB-dJciQacheDNr8LWi_vT11oaliZhXhc_dDO3ktP7V7piy-Dk3SPGtWdvVwkJp3k0P0MIo66TWS_MzaJwJsJijgbrUE27hdx-D4hrjb-pU0_WS-qKjy5vPofxNjnthFS-tij5p_xzzk",
+        "html": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2ZhYzYyMDY4ZGIzNjQxNjRhZDdkY2Q3NGJiMWVmOTIzEgsSBxC30bCSvh4YAZIBIwoKcHJvamVjdF9pZBIVQhM3ODQzMTkyMjI3MTMyMTY0NTA4&filename=&opi=89354086"
+    },
+    "booking": {
+        "image": "https://lh3.googleusercontent.com/aida/ADBb0ugY7dShZYs7RuZ7wA-HVme0sJK1JvpfIYrnDtiObkpUyo9bIZknuTIEFmH2gjkHg2r1GJ_DP0YAwfIapskBs-kzF4UoD1PIsAbj9o-He8dTK35l1I4ko_bQSioS4JYAuMW453M1GqEeD0tgXrqkcjMDqOfLeFa_sz_3JeQN_MpT6vyeudNEScvx9W0gPkZz8BAhJOnfiUYZjkscS27q5xDxrX_KY3cT7eC_JPo6Jwghe_MhnxlGhTMvdA0",
+        "html": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzNmMDVhMGE1OGE2MzRlN2FhMGRhNzkwZmQxNWZiZWJmEgsSBxC30bCSvh4YAZIBIwoKcHJvamVjdF9pZBIVQhM3ODQzMTkyMjI3MTMyMTY0NTA4&filename=&opi=89354086"
+    },
+    "input": {
+        "image": "https://lh3.googleusercontent.com/aida/ADBb0ujcT4TDXYlZowcPoGy5xgOjqPK3IIUgA-JCqu6NSrSb_QtPajBBBPQfbReqQee6-D5HZoyTnGGiZtPHA3NQiNIja3zWCxXWfWXGlVyo01TrjintKwVJD3O9M1zju6v8xjuJxyRGUieb5572IyCk1FDLD_63HwEYOSUne2GG7tSGWj0lfPfajqP7rD9x0j25T7HO8mN2cenhzUaOCg_T5Diol83jM9WBKLtXN_fCFPDOQ8goGvXboySjEw",
+        "html": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2JhMDI4NDI2OTExMzQwMzNiZmYwOTFiMWRmZTMyNzVhEgsSBxC30bCSvh4YAZIBIwoKcHJvamVjdF9pZBIVQhM3ODQzMTkyMjI3MTMyMTY0NTA4&filename=&opi=89354086"
+    },
+    "recommendations": {
+        "image": "https://lh3.googleusercontent.com/aida/ADBb0ujZLdJl49CCesOf9IoeTvQMECZuBtrbpYFHedFFRBUllMXyjSNGs9YKAj7LjqKKEkcSs4mvESAvRbsH0zPPsTzIhP8YiRwJ1fV1H1CFBoOGYjzhYLzrV5w5BVCPIY8KKT6G3tuO_iY9lXYhOPQ2HBcNalWavOQJp4QusZIv_CXEv9n_MpdmgG6BFBD8HGrnWYaBr-0qrOBYBHVfOSGUN_y_QhBCgC7WwjL8d0fHQn49FGTn7vCbq4CJ",
+        "html": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzE2MDhkMjJmNDVlMzQ4MTJiYjdjYWQ4YTVhNWIzYzRmEgsSBxC30bCSvh4YAZIBIwoKcHJvamVjdF9pZBIVQhM3ODQzMTkyMjI3MTMyMTY0NTA4&filename=&opi=89354086"
+    },
+    "welcome": {
+        "image": "https://lh3.googleusercontent.com/aida/ADBb0uh6tjewMSAPeXCHS6nCMsyVYVydsqnQwL7gXICGuGi-DV5JePs79U1ntMW3HYkg79Xb0b9DOjDoI8MTd5dHVKJyCXWmvSnFLECzpEsDhj7rg4X1qcQEMX3idKygRj1_9m2WzT6MIXI1IrDjp633B2FUCFi027KSbCqXhPtIHDi7hw-cD7cmS9_TOzkdGIIUYG4zvfhDjqL28QgyG3_HhPPU7Xh3isqSGylxpjis15S_1NX8402szzbGug",
+        "html": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2ZkOGEzYjFmOTkyMTRhZThiMTdmY2VhNGI1MjNlNTQ4EgsSBxC30bCSvh4YAZIBIwoKcHJvamVjdF9pZBIVQhM3ODQzMTkyMjI3MTMyMTY0NTA4&filename=&opi=89354086"
+    },
+    "thank_you": {
+        "image": "https://lh3.googleusercontent.com/aida/ADBb0ujsdRpZmCxf2VnXiZT2w2pGvm81zYrqT4iDU8cIbLzqhgExVYALumIXrXXHjKaSB_Y5yFtKnuAxvA0rpBliTsFoARLVGfD2PLjHCfww2nYfJDs2-dYkVrKZ99JSOgk-eLFCthU9N-oAbolNGh7lkfk5GQokihwWQeksX7fk5F0Phe8wxA3lqxzyYrE21DYCNtAWRDvOsExN26QN9VhwwY5kVXbUCTkw16LMXMLNVaGC-Z-VYqvzyLPEnyw",
+        "html": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzZlZjMyYmNkMzM4YzQ1MGNhMTk3ZDRkNzY0NDZkOGE5EgsSBxC30bCSvh4YAZIBIwoKcHJvamVjdF9pZBIVQhM3ODQzMTkyMjI3MTMyMTY0NTA4&filename=&opi=89354086"
+    }
+}
+
+os.makedirs("stitch-assets/images", exist_ok=True)
+os.makedirs("stitch-assets/html", exist_ok=True)
+
+for name, urls in assets.items():
+    print(f"Downloading {name}...")
+    img_resp = requests.get(urls["image"])
+    with open(f"stitch-assets/images/{name}.webp", "wb") as f:
+        f.write(img_resp.content)
+    
+    html_resp = requests.get(urls["html"])
+    with open(f"stitch-assets/html/{name}.html", "wb") as f:
+        f.write(html_resp.content)
+
+print("Done!")

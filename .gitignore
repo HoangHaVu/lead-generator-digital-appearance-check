@@ -1,0 +1,14 @@
+node_modules/
+dist/
+dist-ssr/
+*.local
+.agent/
+.agents/
+stitch-assets/
+Steps/
+design-system/
+Lead-Generator-ZUKUNFT.md
+.DS_Store
+*.log
+.env
+.env.*

@@ -1,0 +1,27 @@
+node_modules/
+.next/
+.nuxt/
+dist/
+build/
+.cache/
+.agent/
+.agents/
+stitch-skills/
+ui-ux-pro-max-skill/
+*.log
+.env
+.env.*
+coverage/
+.turbo/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project specific
+stitch-assets/
+download_stitch_assets.py
+download_stitch_assets.sh
+Lead-Generator-ZUKUNFT.md
+Steps/
+design-system/
