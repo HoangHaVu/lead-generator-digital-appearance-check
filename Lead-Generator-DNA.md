@@ -103,13 +103,35 @@ Welcome                           → docs/maps/map-welcome.md
   └── Stats
 
 Input                             → docs/maps/map-input.md
+  └── AnalysisForm
+
 Scanning                          → docs/maps/map-scanning.md
+  └── ScanStatus
+
 Questions                         → docs/maps/map-questions.md
+  └── Quiz
+
 ScoreResult                       → docs/maps/map-scoreresult.md
+  ├── ResultDashboard
+  └── DetailCards
+
 Recommendations                   → docs/maps/map-recommendations.md
+  ├── RecommendationsHero
+  ├── QuickMetrics
+  └── ActionPlan
+
 Booking                           → docs/maps/map-booking.md
+  ├── BookingCalendar
+  └── BookingDetails
+
 LeadClose                         → docs/maps/map-leadclose.md
+  ├── CloseHero
+  ├── ExpertProfile
+  └── BenefitGrid
+
 ThankYou                          → docs/maps/map-thankyou.md
+  └── ThankYouDetails
+
 
 Layout + geteilte UI              → docs/maps/map-layout.md
                                   → docs/maps/map-ui-shared.md
