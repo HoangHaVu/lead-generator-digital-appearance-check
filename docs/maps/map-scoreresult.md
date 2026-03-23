@@ -15,6 +15,7 @@ Datei:   src/components/sections/DetailCards.jsx
 Funktion: Grid aus Kategorie-Karten und detaillierte Tabelle der überprüften Kriterien.
 
 ## Funktionalität
-- Dynamische Charts: Animationen mit Framer Motion.
-- Filter/Sortierung: (In Vorbereitung) für die Tabelle.
-- Export CTA: PDF Export Funktion (Placeholder).
+- Dynamische Charts: Animationen mit Framer Motion, Scores aus LeadContext.
+- Filter: 5 Kategorie-Filter-Buttons (Alle / SSL / Mobile / SEO / Bewertungen / Impressum).
+- Sortierung: Score-Spalte klickbar → asc/desc mit Pfeil-Icon.
+- Export PDF: window.print() — Navbar/Footer/Buttons werden via print:hidden ausgeblendet.

@@ -10,8 +10,8 @@ const ScoreResult = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50">
-      <Navbar />
-      
+      <Navbar className="print:hidden" />
+
       <main className="flex-1 max-w-7xl mx-auto px-6 py-12 lg:py-20 w-full">
         <div className="space-y-8">
           {/* Header Section */}
@@ -20,11 +20,14 @@ const ScoreResult = () => {
               <h2 className="text-slate-900 text-4xl font-black leading-tight tracking-tight">Analyse-Ergebnis</h2>
               <p className="text-slate-500 text-lg font-body">Detaillierte Auswertung Ihres digitalen Auftritts.</p>
             </div>
-            <div className="flex gap-3">
-              <button className="bg-white border border-slate-200 px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-slate-50 transition-colors font-body">
+            <div className="flex gap-3 print:hidden">
+              <button
+                onClick={() => window.print()}
+                className="bg-white border border-slate-200 px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-slate-50 transition-colors font-body"
+              >
                 <FileDown size={18} /> Export PDF
               </button>
-              <button 
+              <button
                 onClick={() => navigate('/recommendations')}
                 className="bg-primary text-white px-6 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:opacity-90 transition-opacity font-body shadow-lg shadow-primary/20"
               >
@@ -38,7 +41,7 @@ const ScoreResult = () => {
         </div>
       </main>
 
-      <Footer />
+      <Footer className="print:hidden" />
     </div>
   );
 };

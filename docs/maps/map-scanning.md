@@ -11,6 +11,8 @@ Datei:   src/components/sections/ScanStatus.jsx
 Funktion: Animierter Ladebildschirm. Simuliert verschiedene Analyse-Schritte (Security, Mobile, SEO, Reviews).
 
 ## Funktionalität
-- Progress-Simulation: `setInterval` bis 100%.
-- Status-Updates: Dynamischer Text basierend auf Fortschritt.
-- Automatischer Redirect: Nach 100% Weiterleitung zu /questions.
+- API-Call: `fetchScanResults(url)` startet sofort parallel zur Animation → netlify/functions/scan.js
+- Fallback: generateScores(url) wenn API nicht erreichbar (kein Deployment / Timeout)
+- Progress-Animation: setInterval 50ms, hält bei 99% bis API fertig ist
+- Status-Updates: Dynamischer Text basierend auf Fortschritt
+- Navigation: Erst wenn Animation (100%) UND API-Call beide fertig sind → /questions

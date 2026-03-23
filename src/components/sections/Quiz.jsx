@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useLead } from '../../context/LeadContext';
 
 const questions = [
   {
@@ -40,6 +41,7 @@ const Quiz = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const navigate = useNavigate();
+  const { setQuizAnswers } = useLead();
 
   const handleSelect = (optionLabel) => {
     setAnswers({ ...answers, [questions[currentStep].id]: optionLabel });
@@ -49,6 +51,7 @@ const Quiz = () => {
     if (currentStep < questions.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
+      setQuizAnswers(answers);
       navigate('/result');
     }
   };

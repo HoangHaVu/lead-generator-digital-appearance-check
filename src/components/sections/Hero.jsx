@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, PieChart } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Smartphone, Search, Star, FileText, TrendingUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
@@ -37,7 +37,10 @@ const Hero = () => {
             <span>Jetzt Analyse starten</span>
             <ArrowRight className="group-hover:translate-x-1 transition-transform" />
           </button>
-          <button className="px-8 py-5 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-900 text-lg font-bold transition-all flex items-center justify-center font-body">
+          <button
+            onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+            className="px-8 py-5 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-900 text-lg font-bold transition-all flex items-center justify-center font-body"
+          >
             Mehr erfahren
           </button>
         </div>
@@ -60,27 +63,90 @@ const Hero = () => {
         </div>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.2 }}
         className="relative"
       >
-        <div className="absolute -inset-4 bg-primary/20 rounded-3xl blur-3xl opacity-30"></div>
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white aspect-video lg:aspect-square bg-slate-100">
-          <img 
-            alt="Modern Healthcare Technology" 
-            className="w-full h-full object-cover" 
-            src="https://images.unsplash.com/photo-1576091160550-217359f42f8c?auto=format&fit=crop&q=80&w=800"
-          />
-          <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/90 backdrop-blur-md rounded-xl shadow-lg flex items-center justify-between">
+        <div className="absolute -inset-4 bg-primary/20 rounded-3xl blur-3xl opacity-30" />
+
+        {/* Dashboard Mockup */}
+        <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200 bg-white p-6 flex flex-col gap-5">
+
+          {/* Header */}
+          <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs font-bold text-primary uppercase font-body">Live Report</p>
-              <p className="text-lg font-bold text-slate-900 font-body">Digitaler Fortschritt 2024</p>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider font-body">Analyse-Ergebnis</p>
+              <p className="text-slate-900 font-black">Pflegeheim Sonnenschein</p>
             </div>
-            <div className="bg-primary/20 p-2 rounded-lg">
-              <PieChart className="text-primary" />
+            <span className="bg-green-100 text-green-600 text-xs font-bold px-3 py-1 rounded-full font-body flex items-center gap-1">
+              <TrendingUp size={12} /> Über Schnitt
+            </span>
+          </div>
+
+          {/* Score Ring */}
+          <div className="flex items-center gap-6 bg-primary/5 rounded-2xl p-5">
+            <div className="relative shrink-0">
+              <svg width="96" height="96" viewBox="0 0 100 100" className="-rotate-90">
+                <circle cx="50" cy="50" r="38" fill="transparent" stroke="#e2e8f0" strokeWidth="10" />
+                <motion.circle
+                  cx="50" cy="50" r="38" fill="transparent"
+                  stroke="#0891B2" strokeWidth="10" strokeLinecap="round"
+                  strokeDasharray="238.76"
+                  initial={{ strokeDashoffset: 238.76 }}
+                  animate={{ strokeDashoffset: 238.76 - (238.76 * 84) / 100 }}
+                  transition={{ duration: 1.8, ease: 'easeOut', delay: 0.6 }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-2xl font-black text-slate-900">84</span>
+                <span className="text-[9px] font-bold text-primary uppercase tracking-wider">Gut</span>
+              </div>
             </div>
+            <div className="flex-1 flex flex-col gap-2">
+              {[
+                { icon: <ShieldCheck size={12} />, label: 'SSL', val: 92 },
+                { icon: <Smartphone size={12} />, label: 'Mobile', val: 78 },
+                { icon: <Search size={12} />, label: 'SEO', val: 85 },
+                { icon: <Star size={12} />, label: 'Bewertungen', val: 72 },
+                { icon: <FileText size={12} />, label: 'Impressum', val: 90 },
+              ].map(({ icon, label, val }) => (
+                <div key={label} className="flex items-center gap-2">
+                  <span className="text-primary w-3 shrink-0">{icon}</span>
+                  <span className="text-[10px] font-bold text-slate-500 w-16 shrink-0 font-body">{label}</span>
+                  <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <motion.div
+                      className="h-full bg-primary rounded-full"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${val}%` }}
+                      transition={{ duration: 1, ease: 'easeOut', delay: 0.8 }}
+                    />
+                  </div>
+                  <span className="text-[10px] font-black text-slate-700 w-6 text-right font-body">{val}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom Cards */}
+          <div className="grid grid-cols-3 gap-3">
+            {[
+              { label: 'Empfehlungen', value: '5', color: 'text-amber-500' },
+              { label: 'Potenzial', value: '+16%', color: 'text-green-500' },
+              { label: 'Dauer', value: '< 2 Min', color: 'text-primary' },
+            ].map(({ label, value, color }) => (
+              <div key={label} className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                <p className={`text-lg font-black ${color}`}>{value}</p>
+                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider font-body mt-0.5">{label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA Badge */}
+          <div className="bg-primary rounded-2xl px-5 py-3 flex items-center justify-between">
+            <p className="text-white font-bold text-sm font-body">Kostenlose Analyse starten</p>
+            <ArrowRight size={16} className="text-white" />
           </div>
         </div>
       </motion.div>

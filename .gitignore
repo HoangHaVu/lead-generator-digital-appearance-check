@@ -12,3 +12,4 @@ Lead-Generator-ZUKUNFT.md
 *.log
 .env
 .env.*
+.netlify/

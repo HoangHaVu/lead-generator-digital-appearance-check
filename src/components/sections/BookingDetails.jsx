@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Calendar as CalendarIcon, Clock, Video, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useLead } from '../../context/LeadContext';
 
 const DetailRow = ({ icon, label, value }) => (
   <div className="flex items-center gap-4">
@@ -16,6 +17,13 @@ const DetailRow = ({ icon, label, value }) => (
 
 const BookingDetails = ({ selectedDate, selectedTime, onSelectTime, timeSlots }) => {
   const navigate = useNavigate();
+  const { setBookingData, saveLead } = useLead();
+
+  const handleConfirm = () => {
+    setBookingData({ date: selectedDate, time: selectedTime });
+    saveLead();
+    navigate('/close');
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -50,8 +58,8 @@ const BookingDetails = ({ selectedDate, selectedTime, onSelectTime, timeSlots })
           <DetailRow icon={<Clock size={18} />} label="Zeit" value={`${selectedTime} (30 Min.)`} />
           <DetailRow icon={<Video size={18} />} label="Ort" value="Google Meet Video Link" />
         </div>
-        <button 
-          onClick={() => navigate('/close')}
+        <button
+          onClick={handleConfirm}
           className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-2xl shadow-xl shadow-primary/30 transition-all flex items-center justify-center gap-2 font-body"
         >
           Termin bestätigen

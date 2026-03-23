@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Calendar, Video, User, Home, Download, Mail } from 'lucide-react';
+import { useLead } from '../../context/LeadContext';
 
 const SuccessCard = ({ icon, label, value }) => (
   <div className="flex items-center gap-4 bg-white/50 p-4 rounded-xl border border-white">
@@ -16,6 +17,8 @@ const SuccessCard = ({ icon, label, value }) => (
 
 const ThankYouDetails = () => {
   const navigate = useNavigate();
+  const { formData, bookingData } = useLead();
+  const dateLabel = bookingData.date ? `${bookingData.date}. Oktober 2025` : '—';
 
   return (
     <motion.div 
@@ -46,7 +49,7 @@ const ThankYouDetails = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-        <SuccessCard icon={<Calendar size={18} />} label="Vorgemerkt am" value="05. Okt 2024" />
+        <SuccessCard icon={<Calendar size={18} />} label="Vorgemerkt am" value={dateLabel} />
         <SuccessCard icon={<Video size={18} />} label="Format" value="Video-Call" />
         <SuccessCard icon={<User size={18} />} label="Berater" value="Dr. M. Weber" />
       </div>
@@ -58,7 +61,9 @@ const ThankYouDetails = () => {
               <Mail size={16} className="text-primary" />
               E-Mail unterwegs
             </h4>
-            <p className="text-sm text-slate-500 font-body">Termin-Details & Vorbereitungsliste wurden an Sie gesendet.</p>
+            <p className="text-sm text-slate-500 font-body">
+              Termin-Details & Vorbereitungsliste wurden an {formData.email || 'Sie'} gesendet.
+            </p>
           </div>
           <button className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-xl text-sm font-bold shadow-sm hover:bg-slate-50 transition-all font-body">
             <Download size={18} /> Fallstudien (PDF)

@@ -1,14 +1,13 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;700&display=swap');
 
 @theme {
   --color-primary: #0891B2;
   --color-secondary: #22D3EE;
   --color-cta: #059669;
   --color-background-app: #ECFEFF;
-  
-  --font-display: "Figtree", sans-serif;
-  --font-body: "Noto Sans", sans-serif;
+
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-body: "Inter", sans-serif;
 }
 
 :root {
@@ -118,6 +117,14 @@ body {
   border-color: var(--color-primary);
   outline: none;
   box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+}
+
+/* Print */
+@media print {
+  nav, footer { display: none !important; }
+  body { background: white !important; color: black !important; }
+  .bg-slate-50 { background: white !important; }
+  @page { margin: 1.5cm; }
 }
 
 /* Animations */
