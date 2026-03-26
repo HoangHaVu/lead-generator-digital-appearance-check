@@ -11,7 +11,7 @@ const AnalysisForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [facilityName, setFacilityName] = useState('');
-  const [socialOpen, setSocialOpen] = useState(false);
+  const [socialOpen, setSocialOpen] = useState(true);
   const [instagram, setInstagram] = useState('');
   const [facebook, setFacebook] = useState('');
   const [tiktok, setTiktok] = useState('');
