@@ -14,6 +14,25 @@ const HEADERS = {
 
 const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
 
+// Extrahiert Social-Media-Links aus dem Website-HTML
+const extractSocialLinks = (html) => {
+  const links = {};
+
+  const ig = html.match(/href=["'](?:https?:\/\/)?(?:www\.)?instagram\.com\/([a-zA-Z0-9._]{2,30})\/?["']/i);
+  if (ig?.[1] && !['p','reel','stories','explore','accounts','tv'].includes(ig[1])) links.instagram = ig[1];
+
+  const fb = html.match(/href=["'](?:https?:\/\/)?(?:www\.)?facebook\.com\/([a-zA-Z0-9._-]{3,50})\/?["']/i);
+  if (fb?.[1] && !['sharer','share','login','dialog','plugins','photo','video','groups','events'].includes(fb[1])) links.facebook = fb[1];
+
+  const tt = html.match(/href=["'](?:https?:\/\/)?(?:www\.)?tiktok\.com\/@([a-zA-Z0-9._]{2,30})\/?["']/i);
+  if (tt?.[1]) links.tiktok = tt[1];
+
+  const li = html.match(/href=["'](?:https?:\/\/)?(?:www\.)?linkedin\.com\/company\/([a-zA-Z0-9._-]{2,50})\/?["']/i);
+  if (li?.[1] && !['share','sharing','feed'].includes(li[1])) links.linkedin = li[1];
+
+  return links;
+};
+
 const analyzeHtml = (url, html) => {
   const lower = html.toLowerCase();
 
@@ -58,6 +77,7 @@ const analyzeHtml = (url, html) => {
     : clamp(25 + Math.floor(Math.random() * 20), 25, 45);
 
   const total = Math.round((ssl + mobile + impressum + seo + reviews) / 5);
+  const socialLinks = extractSocialLinks(html);
 
   return {
     ssl,
@@ -66,6 +86,7 @@ const analyzeHtml = (url, html) => {
     seo,
     reviews,
     total,
+    socialLinks,
     details: {
       ssl: { pass: sslPass },
       mobile: { pass: hasViewport },

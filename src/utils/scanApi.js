@@ -17,6 +17,7 @@ export async function fetchScanResults(url) {
       reviews: data.reviews ?? 50,
       impressum: data.impressum ?? 50,
       total: data.total ?? 50,
+      socialLinks: data.socialLinks || {},
     };
   } catch {
     return generateScores(url);

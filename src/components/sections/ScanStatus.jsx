@@ -71,32 +71,43 @@ const ScanStatus = () => {
     }
   };
 
-  // Alle drei API-Calls parallel starten
+  // SEO-Scan + Website-Scan parallel starten
+  // Social-Scan startet nach Website-Scan (braucht ggf. erkannte Links)
   useEffect(() => {
-    // Website-Scan
-    fetchScanResults(formData.url).then((scores) => {
-      scoresRef.current = scores;
-      websiteDone.current = true;
-      tryNavigate();
-    });
-
-    // Erweiterter SEO-Scan
+    // SEO-Scan sofort
     fetchSeoResults(formData.url).then((results) => {
       seoRef.current = results;
       seoDone.current = true;
       tryNavigate();
     });
 
-    // Social-Scan (sofort als done markieren wenn keine Handles angegeben)
-    if (!hasSocialHandles) {
-      socialDone.current = true;
-    } else {
-      fetchSocialResults(socialHandles).then((results) => {
-        socialRef.current = results;
+    // Website-Scan → danach Social mit erkannten + User-Handles
+    fetchScanResults(formData.url).then((scores) => {
+      scoresRef.current = scores;
+      websiteDone.current = true;
+      tryNavigate();
+
+      // Erkannte Social-Links mit User-Handles zusammenführen (User hat Vorrang)
+      const detected = scores.socialLinks || {};
+      const merged = {
+        instagram: socialHandles.instagram || detected.instagram || '',
+        facebook:  socialHandles.facebook  || detected.facebook  || '',
+        tiktok:    socialHandles.tiktok    || detected.tiktok    || '',
+        linkedin:  socialHandles.linkedin  || detected.linkedin  || '',
+      };
+      const hasAny = Object.values(merged).some(Boolean);
+
+      if (!hasAny) {
         socialDone.current = true;
         tryNavigate();
-      });
-    }
+      } else {
+        fetchSocialResults(merged).then((results) => {
+          socialRef.current = results;
+          socialDone.current = true;
+          tryNavigate();
+        });
+      }
+    });
   }, []);
 
   // Fortschritts-Animation
